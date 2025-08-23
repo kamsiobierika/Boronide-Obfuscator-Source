@@ -4,7 +4,7 @@
   "description": "Boronide Old Source Code",
   "main": "src/run.js",
   "scripts": {
-    "test": "src/run.js"
+    "start": "node src/run.js"
   },
   "repository": {
     "type": "git",
@@ -26,5 +26,11 @@
   "bugs": {
     "url": "https://github.com/Herrtt/Boronide-Obfuscator/issues"
   },
-  "homepage": "https://github.com/Herrtt/Boronide-Obfuscator#readme"
+  "homepage": "https://github.com/Herrtt/Boronide-Obfuscator#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "discord.js": "^14.16.3",
+    "axios": "^1.7.7",
+    "fs-extra": "^11.2.0"
+  }
 }
