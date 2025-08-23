@@ -1,14 +1,8 @@
-version: "3.9"
-
+version: "3.8"
 services:
-  obfuscator:
+  bot:
     build: .
-    container_name: boronide-obfuscator
-    restart: always
-    ports:
-      - "3000:3000"   # Change if your Express server uses a different port
-    env_file:
-      - .env          # Loads variables from .env into the container
-    volumes:
-      - .:/app        # Mount local code for development (optional)
-      - /app/node_modules  # Keep container node_modules isolated
+    container_name: boronide-bot
+    env_file: 
+      - .env
+    command: ["node", "src/run.js"]
