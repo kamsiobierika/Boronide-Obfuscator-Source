@@ -1,15 +1,15 @@
 services:
-  - type: web
+  - type: worker
     name: boronide-bot
     env: node
     plan: free
     region: oregon
 
-    buildCommand: "npm install"
-    startCommand: "node src/run.js"
+    buildCommand: npm install
+    startCommand: node src/run.js
 
     envVars:
       - key: DISCORD_TOKEN
-        sync: false   # set in Render dashboard, not committed
+        sync: false
       - key: NODE_ENV
         value: production
