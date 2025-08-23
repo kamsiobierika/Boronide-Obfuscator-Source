@@ -1,20 +1,21 @@
-# Use an official Node.js runtime as base image
+# Use Node.js LTS image
 FROM node:18
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy package.json and package-lock.json first (for better caching)
+# Copy only package.json & package-lock.json first for caching
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install --production
 
-# Copy the rest of the source code
+# Copy the rest of the code
 COPY . .
 
-# Expose a port (optional, if your bot has a web dashboard)
+# Expose port (if your app uses Express for web UI/API)
 EXPOSE 3000
 
-# Start the bot
-CMD ["node", "src/run.js"]
+# Run your app
+CMD ["npm", "start"]
+
