@@ -1,36 +1,12 @@
 {
   "name": "boronide-obfuscator",
-  "version": "0.2.4",
-  "description": "Boronide Old Source Code",
+  "version": "1.0.0",
   "main": "src/run.js",
   "scripts": {
     "start": "node src/run.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Herrtt/Boronide-Obfuscator.git"
-  },
-  "keywords": [
-    "boronide",
-    "obfuscator",
-    "lua",
-    "open",
-    "source",
-    "roblox",
-    "fivem",
-    "gamesense",
-    "obfuscate"
-  ],
-  "author": "Herrtt",
-  "license": "AGPL-3.0",
-  "bugs": {
-    "url": "https://github.com/Herrtt/Boronide-Obfuscator/issues"
-  },
-  "homepage": "https://github.com/Herrtt/Boronide-Obfuscator#readme",
   "dependencies": {
-    "dotenv": "^16.4.5",
-    "discord.js": "^14.16.3",
-    "axios": "^1.7.7",
-    "fs-extra": "^11.2.0"
+    "discord.js": "^14.15.2",
+    "dotenv": "^16.4.1"
   }
 }
