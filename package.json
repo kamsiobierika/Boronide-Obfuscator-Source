@@ -6,7 +6,9 @@
     "start": "node src/run.js"
   },
   "dependencies": {
-    "discord.js": "^14.15.2",
-    "dotenv": "^16.4.1"
+    "discord.js": "^14.0.0",
+    "axios": "^1.7.0",
+    "dotenv": "^16.0.0",
+    "tmp": "^0.2.3"
   }
 }
