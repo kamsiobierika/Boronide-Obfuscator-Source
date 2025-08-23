@@ -1,7 +1,6 @@
 {
-  "name": "novahub-obfuscator",
+   "name": "boronide-obfuscator",
   "version": "1.0.0",
-  "description": "Luau obfuscator web server with file upload and logger",
   "main": "src/run.js",
   "scripts": {
     "start": "node src/run.js"
