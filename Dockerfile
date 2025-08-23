@@ -1,10 +1,7 @@
-# Use Node.js LTS
-FROM node:20
-
 # Set working directory
 WORKDIR /app
 
-# Copy package files
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
 # Install dependencies
@@ -13,11 +10,8 @@ RUN npm install
 # Copy source code
 COPY . .
 
-# Copy .env file into container
-COPY .env .env
+# Expose port if needed (e.g., Express)
+EXPOSE 10000
 
-# Expose port if you run a web server
-EXPOSE 3000
-
-# Run your bot
+# Start command
 CMD ["node", "src/run.js"]
