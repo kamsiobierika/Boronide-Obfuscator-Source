@@ -1,17 +1,20 @@
-# Set working directory
+# Use Node.js LTS image
+FROM node:18
+
+# Create app directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy only package.json & package-lock.json first for caching
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --production
 
-# Copy source code
+# Copy the rest of the code
 COPY . .
 
-# Expose port if needed (e.g., Express)
-EXPOSE 10000
+# Expose port (if your app uses Express for web UI/API)
+EXPOSE 3000
 
-# Start command
-CMD ["node", "src/run.js"]
+# Run your app
+CMD ["npm", "start"]
