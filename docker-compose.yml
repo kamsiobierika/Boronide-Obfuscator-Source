@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  obfuscator:
+    build: .
+    container_name: boronide-obfuscator
+    restart: always
+    ports:
+      - "3000:3000"   # Change if your Express server uses a different port
+    env_file:
+      - .env          # Loads variables from .env into the container
+    volumes:
+      - .:/app        # Mount local code for development (optional)
+      - /app/node_modules  # Keep container node_modules isolated
