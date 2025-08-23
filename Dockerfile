@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Start the bot
-CMD ["node", "run.js"]
+CMD ["node", "src/run.js"]
