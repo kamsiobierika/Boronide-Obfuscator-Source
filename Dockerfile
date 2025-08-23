@@ -2,8 +2,7 @@
 FROM node:18
 
 # Create app directory
-WORKDIR /app
-
+WORKDIR /
 # Copy only package.json & package-lock.json first for caching
 COPY package*.json ./
 
