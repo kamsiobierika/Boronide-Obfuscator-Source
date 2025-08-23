@@ -1,17 +1,17 @@
-# Use Node.js official image
+# Use Node.js LTS
 FROM node:18
 
-# Set working directory inside container
-WORKDIR /usr/src/app
+# Set working directory to root inside container
+WORKDIR /
 
-# Copy package files
+# Copy package files first for caching
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --production
 
-# Copy the rest of the project (including src/)
+# Copy the rest of the project
 COPY . .
 
-# Run your bot (inside src)
+# Run your app
 CMD ["node", "src/run.js"]
