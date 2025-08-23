@@ -1,14 +1,21 @@
 {
-  "name": "boronide-obfuscator",
+  "name": "novahub-obfuscator",
   "version": "1.0.0",
+  "description": "Luau obfuscator web server with file upload and logger",
   "main": "src/run.js",
   "scripts": {
     "start": "node src/run.js"
   },
   "dependencies": {
-    "discord.js": "^14.0.0",
-    "axios": "^1.7.0",
-    "dotenv": "^16.0.0",
-    "tmp": "^0.2.3"
+    "axios": "^1.5.0",
+    "discord.js": "^13.12.0",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "path": "^0.12.7"
+  },
+  "engines": {
+    "node": ">=16.x"
   }
 }
