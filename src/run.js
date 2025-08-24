@@ -1,12 +1,27 @@
-// bot.js
+// run.js
+
 require("dotenv").config();
-const { Client, GatewayIntentBits } = require("discord.js");
+const { Client, GatewayIntentBits, AttachmentBuilder } = require("discord.js");
+const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const express = require("express");
 
-const { obfuscate } = require("./index.js"); // uses your real obfuscator
+// Import your obfuscator (index.js must export obfuscate)
+const { obfuscate } = require("./index.js");
 
+// --- Express keep-alive server ---
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+  res.send("✅ Bot is running!, But my Big fat dick wanna get sucked");
+});
+
+app.listen(PORT, () => {
+  console.log(`🌐 Server running on port ${PORT}`);
+});
+
+// --- Discord Bot Setup ---
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
   console.error("❌ No DISCORD_TOKEN found in .env!");
@@ -21,55 +36,46 @@ const client = new Client({
   ],
 });
 
-const log = (...msg) => console.log("[NYX]", ...msg);
+client.once("ready", () => {
+  console.log(`🤖 Logged in as ${client.user.tag}`);
+});
 
-// Command handler
+// --- Obfuscator Command (.obf) ---
 client.on("messageCreate", async (message) => {
+  if (!message.content.startsWith(".obf")) return;
   if (message.author.bot) return;
 
-  if (message.content.startsWith(".obf")) {
-    if (message.attachments.size === 0) {
-      return message.reply("❌ Please attach a Lua file to obfuscate.");
-    }
+  const attachment = message.attachments.first();
+  if (!attachment) {
+    return message.reply("❌ Please attach a Lua file to obfuscate!");
+  }
 
-    const file = message.attachments.first();
-    log(`Received file: ${file.name} from ${message.author.tag}`);
+  if (!attachment.name.endsWith(".lua")) {
+    return message.reply("⚠️ Only `.lua` files are supported!");
+  }
 
-    try {
-      // download the attachment
-      const res = await fetch(file.url);
-      const code = await res.text();
+  try {
+    // Download file
+    const response = await fetch(attachment.url);
+    const luaCode = await response.text();
 
-      // run your real obfuscator
-      const [outputPath] = await obfuscate(code);
+    // Run obfuscator
+    const [outputPath] = await obfuscate(luaCode);
 
-      // send back as output.lua
-      const outputFinal = path.join(__dirname, "output.lua");
-      fs.copyFileSync(outputPath, outputFinal);
+    // Ensure the file is saved as output.lua
+    const finalPath = path.join(__dirname, "output.lua");
+    fs.renameSync(outputPath, finalPath);
 
-      await message.reply({
-        content: "✅ Obfuscation complete!",
-        files: [{ attachment: outputFinal, name: "output.lua" }],
-      });
+    // Send back as raw file
+    const file = new AttachmentBuilder(finalPath, { name: "output.lua" });
+    await message.reply({ content: "✅ Obfuscation complete!", files: [file] });
 
-      log(`Sent obfuscated file to ${message.author.tag}`);
-    } catch (err) {
-      console.error("❌ Obfuscation failed:", err);
-      message.reply("❌ Failed to obfuscate.");
-    }
+    // Cleanup
+    fs.unlinkSync(finalPath);
+  } catch (err) {
+    console.error("❌ Obfuscation failed:", err);
+    message.reply("⚠️ Something went wrong while obfuscating your file.");
   }
 });
 
-// Bot ready log
-client.once("ready", () => {
-  log(`✅ Logged in as ${client.user.tag}`);
-});
-
-// Keep-alive server (optional for Render/Heroku)
-const app = express();
-app.get("/", (req, res) => res.send("Bot is running ON SLAYERSONS DICK!."));
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => log(`🌐 Web server running on MY BIG FAT port DICK ${PORT}`));
-
-// Login
 client.login(token);
