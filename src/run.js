@@ -1,10 +1,11 @@
 // run.js
 
 require("dotenv").config();
-const { Client, GatewayIntentBits, AttachmentBuilder } = require("discord.js");
+const { Client, GatewayIntentBits, AttachmentBuilder, Events } = require("discord.js");
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const fetch = require("node-fetch"); // make sure node-fetch is installed
 
 // Import your obfuscator (index.js must export obfuscate)
 const { obfuscate } = require("./index.js");
@@ -36,12 +37,12 @@ const client = new Client({
   ],
 });
 
-client.once("ready", () => {
+client.once(Events.ClientReady, () => {
   console.log(`🤖 Logged in as ${client.user.tag}`);
 });
 
 // --- Obfuscator Command (.obf) ---
-client.on("messageCreate", async (message) => {
+client.on(Events.MessageCreate, async (message) => {
   if (!message.content.startsWith(".obf")) return;
   if (message.author.bot) return;
 
