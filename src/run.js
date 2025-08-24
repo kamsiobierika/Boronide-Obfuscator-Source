@@ -3,29 +3,31 @@ require("dotenv").config();
 const { Client, Intents } = require("discord.js");
 const fs = require("fs");
 const path = require("path");
+const express = require("express");
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
-const { obfuscate } = require("index.js");
+const { obfuscate } = require("./index.js");
 
-// ✅ Load bot token from .env
+// ✅ Load bot token
 const token = process.env.DISCORD_TOKEN;
 if (!token) {
   console.error("❌ No DISCORD_TOKEN found in .env!");
   process.exit(1);
 }
 
+// ✅ Create Discord client
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 
 client.once("ready", () => {
-  console.log(`[BOT] ✅ Logged in as Made by Slayerson ${client.user.tag}`);
+  console.log(`[BOT] ✅ Logged in as ${client.user.tag}`);
 });
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
-  // Command: .obf with file
+  // Command: .obf
   if (message.content.trim() === ".obf") {
     if (!message.attachments.size) {
       return message.reply("⚠️ Please attach a `.lua` file.");
@@ -41,10 +43,11 @@ client.on("messageCreate", async (message) => {
       const tempDir = path.join(__dirname, "temp");
       if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
 
-      // Save uploaded file as input.lua
+      // Paths for input/output
       const inputPath = path.join(tempDir, "input.lua");
       const outputPath = path.join(tempDir, "output.lua");
 
+      // Download file
       const res = await fetch(file.url);
       const buffer = await res.arrayBuffer();
       fs.writeFileSync(inputPath, Buffer.from(buffer));
@@ -54,10 +57,10 @@ client.on("messageCreate", async (message) => {
         fs.readFileSync(inputPath, "utf8")
       );
 
-      // Always save result as output.lua
+      // Always rename result to output.lua
       fs.renameSync(obfPath, outputPath);
 
-      // Send file as raw (like normal file upload)
+      // Send file as raw upload
       await message.reply({
         content: "✅ Here’s your obfuscated file:",
         files: [{ attachment: outputPath, name: "output.lua" }],
@@ -73,5 +76,17 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-// ✅ Use the token variable here
+// ✅ Start bot
 client.login(token);
+
+// ✅ Add a dummy Express server for Render port binding
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+  res.send("🤖 Discord bot is running!");
+});
+
+app.listen(PORT, () => {
+  console.log(`🌐 Web server running on port ${PORT}`);
+});
