@@ -67,9 +67,9 @@ client.once("ready", () => {
 
 // Keep-alive server (optional for Render/Heroku)
 const app = express();
-app.get("/", (req, res) => res.send("Bot is running."));
+app.get("/", (req, res) => res.send("Bot is running ON SLAYERSONS DICK!."));
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => log(`🌐 Web server running on port ${PORT}`));
+app.listen(PORT, () => log(`🌐 Web server running on MY BIG FAT port DICK ${PORT}`));
 
 // Login
 client.login(token);
