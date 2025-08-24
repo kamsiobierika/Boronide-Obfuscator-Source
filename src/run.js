@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
-const { obfuscate } = require("./index.js");
+const { obfuscate } = require("index.js");
 
 // ✅ Load bot token from .env
 const token = process.env.DISCORD_TOKEN;
