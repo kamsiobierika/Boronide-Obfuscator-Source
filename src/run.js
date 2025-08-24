@@ -19,7 +19,7 @@ const client = new Client({
 });
 
 client.once("ready", () => {
-  console.log(`[BOT] ✅ Logged in as ${client.user.tag}`);
+  console.log(`[BOT] ✅ Logged in as Made by Slayerson ${client.user.tag}`);
 });
 
 client.on("messageCreate", async (message) => {
